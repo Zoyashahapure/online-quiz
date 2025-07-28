@@ -1,0 +1,46 @@
+CREATE DATABASE quiz_db;
+USE quiz_db;
+
+CREATE TABLE users (
+  user_id INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(50) NOT NULL UNIQUE,
+  password VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE quizzes (
+  quiz_id INT AUTO_INCREMENT PRIMARY KEY,
+  quiz_title VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE questions (
+  question_id INT AUTO_INCREMENT PRIMARY KEY,
+  quiz_id INT,
+  question_text TEXT,
+  option_a VARCHAR(100),
+  option_b VARCHAR(100),
+  option_c VARCHAR(100),
+  option_d VARCHAR(100),
+  correct_option CHAR(1),
+  FOREIGN KEY (quiz_id) REFERENCES quizzes(quiz_id)
+);
+
+CREATE TABLE results (
+  result_id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT,
+  quiz_id INT,
+  score INT,
+  date_taken DATETIME,
+  FOREIGN KEY (user_id) REFERENCES users(user_id),
+  FOREIGN KEY (quiz_id) REFERENCES quizzes(quiz_id)
+);
+
+-- Insert sample quiz
+INSERT INTO quizzes (quiz_title) VALUES ('Java Basics');
+
+-- Insert sample user
+INSERT INTO users (username, password) VALUES ('zoya', '12345');
+
+-- Insert sample questions
+INSERT INTO questions (quiz_id, question_text, option_a, option_b, option_c, option_d, correct_option) VALUES
+(1, 'Which is not a Java feature?', 'Object-oriented', 'Use of pointers', 'Portable', 'Dynamic', 'B'),
+(1, 'What is the size of int in Java?', '16 bit', '32 bit', '64 bit', 'Depends on system', 'B');
